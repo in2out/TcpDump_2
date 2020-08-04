@@ -1,6 +1,7 @@
 use core::convert::TryInto;
 //use std::fmt::Debug::fmt;
 
+#[allow(dead_code)]
 pub struct PacketInfo {
     caplen: u32,
     ip_ver: u32, 
@@ -15,6 +16,7 @@ pub struct PacketInfo {
     win: u32,
 }
 
+/*
 pub struct net_ip_hdr {
     ip_v_hl: u8,      /* version,  header length */
     ip_tos: u8,       /* type of service */
@@ -27,6 +29,7 @@ pub struct net_ip_hdr {
     ip_src: u32,      /* source ip address */
     ip_dst: u32,      /* destination ip address */
 }
+*/
 
 impl PacketInfo {
     pub fn new() -> PacketInfo {
