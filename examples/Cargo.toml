@@ -5,8 +5,9 @@ publish = false
 edition = "2018"
 
 [dev-dependencies]
-ui={version="0.1.0",path="../ui"}
-net={version="0.1.0",path="../net"}
+ui = {version="0.1.0",path="../ui"}
+net = {version="0.1.0",path="../net"}
+pcap = { version = "0.7" }
 
 [[example]]
 name="hello"
