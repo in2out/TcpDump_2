@@ -13,6 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Install libpcap-dev
+      run: sudo apt-get install libpcap0.8-dev -y
     - name: Install libpcap
       run: sudo apt-get install libpcap0.8 -y
     - name: Build
