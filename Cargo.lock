@@ -5,18 +5,42 @@ name = "examples"
 version = "0.0.0"
 dependencies = [
  "net 0.1.0",
+ "pcap 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "ui 0.1.0",
 ]
 
 [[package]]
+name = "libc"
+version = "0.2.74"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
 name = "net"
 version = "0.1.0"
+dependencies = [
+ "pcap 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "pcap"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "libc 0.2.74 (registry+https://github.com/rust-lang/crates.io-index)",
+]
 
 [[package]]
 name = "tests"
 version = "0.1.0"
+dependencies = [
+ "net 0.1.0",
+ "ui 0.1.0",
+]
 
 [[package]]
 name = "ui"
 version = "0.1.0"
 
+[metadata]
+"checksum libc 0.2.74 (registry+https://github.com/rust-lang/crates.io-index)" = "a2f02823cf78b754822df5f7f268fb59822e7296276d3e069d8e8cb26a14bd10"
+"checksum pcap 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)" = "f912b9e56d1d4851a5175c118fc6503c9f69a8fe1a0649a51aff20b92c757491"
