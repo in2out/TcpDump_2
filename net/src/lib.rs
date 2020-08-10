@@ -1,6 +1,12 @@
 use core::convert::TryInto;
 //use std::fmt::Debug::fmt;
 
+pub enum PacketInfoErr {
+    SizeErrEther,
+    ConvertErrEther,
+}
+
+
 #[allow(dead_code)]
 pub struct PacketInfo {
     caplen: u32,
@@ -48,15 +54,24 @@ impl PacketInfo {
         }
     }
 
-    pub fn parsing(mut self, data: &[u8]) -> PacketInfo {
-        let ether = u16::from_be_bytes(data[12..14].try_into().unwrap());
+    pub fn parsing(mut self, data: &[u8]) -> Result<PacketInfo, PacketInfoErr> {
+        if data.len() < 16 {
+            return Err(PacketInfoErr::SizeErrEther);
+        }
+
+        let ether= match data[12..14].try_into() {
+            Ok(ether) => ether,
+            Err(_) => return Err(PacketInfoErr::ConvertErrEther),
+        };
+
+        let ether = u16::from_be_bytes(ether);
 
         match ether {
             0x0800 => self.ip_ver = 4,
             0x86dd => self.ip_ver = 6,
             _ => self.ip_ver = 0,
         }
-        self
+        Ok(self)
     }
 
     pub fn print(self) {
