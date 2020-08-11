@@ -6,20 +6,19 @@ pub enum PacketInfoErr {
     ConvertErrEther,
 }
 
-
 #[allow(dead_code)]
 pub struct PacketInfo {
-    caplen: u32,
-    ip_ver: u32, 
-    protocol: u32,
-    srcip: u32,
-    dstip: u32,
-    sport: u16,
-    dport: u16,
-    tcp_flags: u8,
-    tcp_seq: u32,
-    tcp_ack: u32,
-    win: u32,
+    pub caplen: u32,
+    pub ip_ver: u32, 
+    pub protocol: u32,
+    pub srcip: u32,
+    pub dstip: u32,
+    pub sport: u16,
+    pub dport: u16,
+    pub tcp_flags: u8,
+    pub tcp_seq: u32,
+    pub tcp_ack: u32,
+    pub win: u32,
 }
 
 /*
@@ -67,14 +66,15 @@ impl PacketInfo {
         let ether = u16::from_be_bytes(ether);
 
         match ether {
-            0x0800 => self.ip_ver = 4,
-            0x86dd => self.ip_ver = 6,
+            0x0008 => self.ip_ver = 4,
+            0xdd86 => self.ip_ver = 6,
             _ => self.ip_ver = 0,
         }
+
         Ok(self)
     }
 
-    pub fn print(self) {
+    pub fn print(&self) {
         print!("{} {}.{} > {}.{}, length {}", self.ip_ver, self.srcip, self.sport, self.dstip, self.dport, self.caplen);
     }
 }
