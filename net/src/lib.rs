@@ -53,21 +53,39 @@ impl PacketInfo {
         }
     }
 
+    fn parsing_ipv4(mut self, data: &[u8]) -> Result<PacketInfo, PacketInfoErr> {
+        let ip = match data[12..16].try_into() {
+            Ok(ip) => ip,
+            Err(_) => return Err(PacketInfoErr::ConvertErrEther),
+        };
+
+        let ip = u32::from_be_bytes(ip);
+        self.srcip = ip;
+
+        
+
+        Ok(self) 
+    }
+
     pub fn parsing(mut self, data: &[u8]) -> Result<PacketInfo, PacketInfoErr> {
         if data.len() < 16 {
             return Err(PacketInfoErr::SizeErrEther);
         }
 
-        let ether= match data[12..14].try_into() {
+        let ether = match data[12..14].try_into() {
             Ok(ether) => ether,
             Err(_) => return Err(PacketInfoErr::ConvertErrEther),
         };
 
         let ether = u16::from_be_bytes(ether);
-
         match ether {
-            0x0008 => self.ip_ver = 4,
-            0xdd86 => self.ip_ver = 6,
+            0x0800 => {
+                self.ip_ver = 4;
+                return PacketInfo::parsing_ipv4(self, &data[14..]);
+            },
+            0x86dd => {
+                self.ip_ver = 6;
+            },
             _ => self.ip_ver = 0,
         }
 
